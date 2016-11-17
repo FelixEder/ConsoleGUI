@@ -2,6 +2,7 @@ package src;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import javafx.scene.control.TextArea;
@@ -58,4 +59,31 @@ public class Console extends BorderPane {
 		setBottom(input);
 	}
 	
+	@Override
+	public void requestFocus() {
+		super.requestFocus();
+		input.requestFocus();
+	}
+	
+	public void setOnMessageReceivedHandler(final Consumer<String> onMessageReceivedHandler) {
+		this.onMessageReceivedHandler = onMessageReceivedHandler;
+	}
+	
+	public void clear() {
+		runSafe(() -> textArea.clear());
+	}
+	
+	public void print(final String text) {
+		Objects.requireNonNull(text, "text");
+		runSafe(() -> textArea.appendText(text));
+	}
+	
+	public void println(final String text) {
+		Objects.requireNonNull(text, "text");
+		runSafe(() -> textArea.appendText(text + System.lineSeparator()));
+	}
+	
+	public void println() {
+		runSafe(() -> textArea.appendText(System.lineSeparator()));
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -70,20 +71,30 @@ public class Console extends BorderPane {
 	}
 	
 	public void clear() {
-		runSafe(() -> textArea.clear());
+		runSafe(() -> output.clear());
 	}
 	
 	public void print(final String text) {
 		Objects.requireNonNull(text, "text");
-		runSafe(() -> textArea.appendText(text));
+		runSafe(() -> output.appendText(text));
 	}
 	
 	public void println(final String text) {
 		Objects.requireNonNull(text, "text");
-		runSafe(() -> textArea.appendText(text + System.lineSeparator()));
+		runSafe(() -> output.appendText(text + System.lineSeparator()));
 	}
 	
 	public void println() {
-		runSafe(() -> textArea.appendText(System.lineSeparator()));
+		runSafe(() -> output.appendText(System.lineSeparator()));
+	}
+	
+	public static void runSafe(final Runnable runnable) {
+		Objects.requireNonNull(runnable, "runnable");
+		if(Platform.isFxApplicationThread()) {
+			runnable.run();
+		}
+		else {
+			Platform.runLater(runnable);
+		}
 	}
 }

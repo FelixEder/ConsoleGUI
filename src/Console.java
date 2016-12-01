@@ -4,12 +4,14 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 
 public class Console extends BorderPane {
+	protected final JFXPanel fxPanel = new JFXPanel();
 	protected final TextArea output = new TextArea();
 	protected final TextField input = new TextField();
 	

@@ -38,21 +38,15 @@ public class Console extends BorderPane {
 							
 				case UP :	if(historyPointer == 0) break;
 							historyPointer--;
-							runSafe(() -> {
-								input.setText(history.get(historyPointer));
-								input.selectAll();
-							});
+							input.setText(history.get(historyPointer));
+							input.selectAll();
 							break;
 							
-				case DOWN:	if(historyPointer == history.size()-1) {
-					break;
-					}
-					historyPointer++;
-					runSafe(() -> {
-						input.setText(history.get(historyPointer));
-						input.selectAll();
-					});
-					break;
+				case DOWN:	if(historyPointer == history.size()-1) break;
+							historyPointer++;
+							input.setText(history.get(historyPointer));
+							input.selectAll();
+							break;
 					
 				default: break;
 			}
@@ -71,30 +65,20 @@ public class Console extends BorderPane {
 	}
 	
 	public void clear() {
-		runSafe(() -> output.clear());
+		output.clear();
 	}
 	
 	public void print(final String text) {
 		Objects.requireNonNull(text, "text");
-		runSafe(() -> output.appendText(text));
+		output.appendText(text);
 	}
 	
 	public void println(final String text) {
 		Objects.requireNonNull(text, "text");
-		runSafe(() -> output.appendText(text + System.lineSeparator()));
+		output.appendText(text + System.lineSeparator());
 	}
 	
 	public void println() {
-		runSafe(() -> output.appendText(System.lineSeparator()));
-	}
-	
-	public static void runSafe(final Runnable runnable) {
-		Objects.requireNonNull(runnable, "runnable");
-		if(Platform.isFxApplicationThread()) {
-			runnable.run();
-		}
-		else {
-			Platform.runLater(runnable);
-		}
+		output.appendText(System.lineSeparator());
 	}
 }

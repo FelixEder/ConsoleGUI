@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Consumer;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -20,8 +18,6 @@ public class Console extends Application {
 	protected List<String> history;
 	protected int historyPointer;
 	
-	private Consumer<String> onMessageReceivedHandler;
-	
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
@@ -36,21 +32,20 @@ public class Console extends Application {
 		output.setEditable(false);
 		
 		BorderPane.setAlignment(output, Pos.CENTER);
-		BorderPane.setAlignment(input, Pos.BOTTOM_CENTER); //Kan ändras vid behov
+		BorderPane.setAlignment(input, Pos.BOTTOM_CENTER); //Can be changed when needed
 		
 		BorderPane base = new BorderPane(output, null, null, input, null); //BorderPane(Node center, Node top, Node right, Node bottom, Node left)
 		
 		input.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			
+
 			public void handle(KeyEvent keyEvent) {
 				switch (keyEvent.getCode()) {
 				case ENTER: String text = input.getText();
+							//Maybe here send to input for game?
 							output.appendText(text + System.lineSeparator());
 							history.add(text);
-							historyPointer++;
-							if (onMessageReceivedHandler != null) {
-								onMessageReceivedHandler.accept(text);
-							}
+							historyPointer = history.size(); 
+							System.out.println("New pointer value:" + historyPointer);
 							input.clear();
 							break;
 							
@@ -58,23 +53,22 @@ public class Console extends Application {
 							historyPointer--;
 							input.setText(history.get(historyPointer));
 							input.selectAll();
+							input.selectEnd(); //Does not change anything
 							break;
 							
 				case DOWN:	if(historyPointer == history.size()-1) break;
 							historyPointer++;
 							input.setText(history.get(historyPointer));
 							input.selectAll();
+							input.selectEnd(); //Does not change anything
 							break;
-					
-				default: break;
-			}
 
-		}
+				default: break;
+				}
+
+			}
 		});
-		
-		
-		
-		
+
 		//Settings for the borderPane, can be changed later
 		base.setPrefSize(400, 400);
 		base.setStyle("-fx-padding: 10;" +
@@ -86,7 +80,15 @@ public class Console extends Application {
 		
 		Scene scene = new Scene(base);
 		stage.setScene(scene);
-		stage.setTitle("Felix own Console GUI"); //Could later be changed so that the actual game-title is displayed here.
+		stage.setTitle("Felix own Console GUI"); //Could later be changed so that the actual game title is displayed here.
 		stage.show();
+	}
+	
+	/**
+	 * Called when the game wants to print something to the game
+	 * @param message The text to be printed to the console.
+	 */
+	public void printGameInfo(String message) {
+		output.appendText(message + System.lineSeparator());
 	}
 }

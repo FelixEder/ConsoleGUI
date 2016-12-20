@@ -43,10 +43,10 @@ public class Console extends Application {
 		
 		BorderPane base = new BorderPane(output, null, null, input, null); //BorderPane(Node center, Node top, Node right, Node bottom, Node left)
 		
-		input.setOnAction(new EventHandler() {
+		input.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			
-			public void handle(Event keyEvent) {
-				switch (((KeyEvent) keyEvent).getCode()) {
+			public void handle(KeyEvent keyEvent) {
+				switch (keyEvent.getCode()) {
 				case ENTER: String text = input.getText();
 							output.appendText(text + System.lineSeparator());
 							history.add(text);

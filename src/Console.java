@@ -5,6 +5,9 @@ import java.util.function.Consumer;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
@@ -27,17 +30,53 @@ public class Console extends Application {
 	}
 	
 	
-	@Override
 	public void start(Stage stage) throws Exception {
 		output = new TextArea();
 		input = new TextField();
 		history = new ArrayList<>();
 		historyPointer = 0;
 		
+		output.setEditable(false);
+		
 		BorderPane.setAlignment(output, Pos.CENTER);
 		BorderPane.setAlignment(input, Pos.BOTTOM_CENTER); //Kan ändras vid behov
 		
 		BorderPane base = new BorderPane(output, null, null, input, null); //BorderPane(Node center, Node top, Node right, Node bottom, Node left)
+		
+		input.setOnAction(new EventHandler() {
+			
+			public void handle(Event keyEvent) {
+				switch (((KeyEvent) keyEvent).getCode()) {
+				case ENTER: String text = input.getText();
+							output.appendText(text + System.lineSeparator());
+							history.add(text);
+							historyPointer++;
+							if (onMessageReceivedHandler != null) {
+								onMessageReceivedHandler.accept(text);
+							}
+							input.clear();
+							break;
+							
+				case UP :	if(historyPointer == 0) break;
+							historyPointer--;
+							input.setText(history.get(historyPointer));
+							input.selectAll();
+							break;
+							
+				case DOWN:	if(historyPointer == history.size()-1) break;
+							historyPointer++;
+							input.setText(history.get(historyPointer));
+							input.selectAll();
+							break;
+					
+				default: break;
+			}
+
+		}
+		});
+		
+		
+		
 		
 		//Settings for the borderPane, can be changed later
 		base.setPrefSize(400, 400);
@@ -55,8 +94,6 @@ public class Console extends Application {
 	}
 	/*
 	public Console() {
-		output.setEditable(false);
-		setCenter(output);
 		
 		input.addEventHandler(EventType<KeyEvent.KEY_RELEASED> keyEvent){
 			switch (keyEvent.getCode()) {
@@ -88,7 +125,7 @@ public class Console extends Application {
 		setBottom(input);
 	}
 	
-	*/
+
 	
 	@Override
 	public void requestFocus() {
@@ -117,5 +154,5 @@ public class Console extends Application {
 	public void println() {
 		output.appendText(System.lineSeparator());
 	}
-
+	*/
 }

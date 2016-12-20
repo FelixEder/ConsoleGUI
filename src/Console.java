@@ -4,9 +4,6 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -92,67 +89,4 @@ public class Console extends Application {
 		stage.setTitle("Felix own Console GUI"); //Could later be changed so that the actual game-title is displayed here.
 		stage.show();
 	}
-	/*
-	public Console() {
-		
-		input.addEventHandler(EventType<KeyEvent.KEY_RELEASED> keyEvent){
-			switch (keyEvent.getCode()) {
-				case ENTER: String text = input.getText();
-							output.appendText(text + System.lineSeparator());
-							history.add(text);
-							historyPointer++;
-							if (onMessageReceivedHandler != null) {
-								onMessageReceivedHandler.accept(text);
-							}
-							input.clear();
-							break;
-							
-				case UP :	if(historyPointer == 0) break;
-							historyPointer--;
-							input.setText(history.get(historyPointer));
-							input.selectAll();
-							break;
-							
-				case DOWN:	if(historyPointer == history.size()-1) break;
-							historyPointer++;
-							input.setText(history.get(historyPointer));
-							input.selectAll();
-							break;
-					
-				default: break;
-			}
-		});
-		setBottom(input);
-	}
-	
-
-	
-	@Override
-	public void requestFocus() {
-		super.requestFocus();
-		input.requestFocus();
-	}
-	
-	public void setOnMessageReceivedHandler(final Consumer<String> onMessageReceivedHandler) {
-		this.onMessageReceivedHandler = onMessageReceivedHandler;
-	}
-	
-	public void clear() {
-		output.clear();
-	}
-	
-	public void print(final String text) {
-		Objects.requireNonNull(text, "text");
-		output.appendText(text);
-	}
-	
-	public void println(final String text) {
-		Objects.requireNonNull(text, "text");
-		output.appendText(text + System.lineSeparator());
-	}
-	
-	public void println() {
-		output.appendText(System.lineSeparator());
-	}
-	*/
 }

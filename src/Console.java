@@ -3,28 +3,62 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
-public class Console extends BorderPane {
-	protected final JFXPanel fxPanel = new JFXPanel();
-	protected final TextArea output = new TextArea();
-	protected final TextField input = new TextField();
+public class Console extends Application {
+	protected TextArea output;
+	protected TextField input;
 	
-	protected final List<String> history = new ArrayList<>();
-	protected int historyPointer = 0;
+	protected List<String> history;
+	protected int historyPointer;
 	
 	private Consumer<String> onMessageReceivedHandler;
 	
+	public static void main(String[] args) {
+		Application.launch(args);
+	}
+	
+	
+	@Override
+	public void start(Stage stage) throws Exception {
+		output = new TextArea();
+		input = new TextField();
+		history = new ArrayList<>();
+		historyPointer = 0;
+		
+		BorderPane.setAlignment(output, Pos.CENTER);
+		BorderPane.setAlignment(input, Pos.BOTTOM_CENTER); //Kan ändras vid behov
+		
+		BorderPane base = new BorderPane(output, null, null, input, null); //BorderPane(Node center, Node top, Node right, Node bottom, Node left)
+		
+		//Settings for the borderPane, can be changed later
+		base.setPrefSize(400, 400);
+		base.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-insets: 5;" +
+                "-fx-border-radius: 5;" +
+                "-fx-border-color: blue;");
+		
+		Scene scene = new Scene(base);
+		stage.setScene(scene);
+		stage.setTitle("Felix own Console GUI"); //Could later be changed so that the actual game-title is displayed here.
+		stage.show();
+	}
+	/*
 	public Console() {
 		output.setEditable(false);
 		setCenter(output);
 		
-		input.addEventHandler(KeyEvent.KEY_RELEASED,  keyEvent -> {
+		input.addEventHandler(EventType<KeyEvent.KEY_RELEASED> keyEvent){
 			switch (keyEvent.getCode()) {
 				case ENTER: String text = input.getText();
 							output.appendText(text + System.lineSeparator());
@@ -54,6 +88,8 @@ public class Console extends BorderPane {
 		setBottom(input);
 	}
 	
+	*/
+	
 	@Override
 	public void requestFocus() {
 		super.requestFocus();
@@ -81,4 +117,5 @@ public class Console extends BorderPane {
 	public void println() {
 		output.appendText(System.lineSeparator());
 	}
+
 }

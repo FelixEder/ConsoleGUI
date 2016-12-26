@@ -17,6 +17,7 @@ public class Console extends Application {
 	
 	protected List<String> history;
 	protected int historyPointer;
+	protected String textToRead = null;
 	
 	public static void main(String[] args) {
 		Application.launch(args);
@@ -28,8 +29,9 @@ public class Console extends Application {
 		input = new TextField();
 		history = new ArrayList<>();
 		historyPointer = 0;
-		
+	
 		output.setEditable(false);
+		input.requestFocus();
 		
 		BorderPane.setAlignment(output, Pos.CENTER);
 		BorderPane.setAlignment(input, Pos.BOTTOM_CENTER); //Can be changed when needed
@@ -41,26 +43,25 @@ public class Console extends Application {
 			public void handle(KeyEvent keyEvent) {
 				switch (keyEvent.getCode()) {
 				case ENTER: String text = input.getText();
-							//Maybe here send to input for game?
 							output.appendText(text + System.lineSeparator());
 							history.add(text);
 							historyPointer = history.size(); 
-							System.out.println("New pointer value:" + historyPointer);
 							input.clear();
+							textToRead = text;
 							break;
 							
 				case UP :	if(historyPointer == 0) break;
 							historyPointer--;
 							input.setText(history.get(historyPointer));
 							input.selectAll();
-							input.selectEnd(); //Does not change anything
+							input.selectEnd(); //Does not change anything seemingly
 							break;
 							
 				case DOWN:	if(historyPointer == history.size()-1) break;
 							historyPointer++;
 							input.setText(history.get(historyPointer));
 							input.selectAll();
-							input.selectEnd(); //Does not change anything
+							input.selectEnd(); //Does not change anything seemingly
 							break;
 
 				default: break;
@@ -90,5 +91,36 @@ public class Console extends Application {
 	 */
 	public void printGameInfo(String message) {
 		output.appendText(message + System.lineSeparator());
+	}
+	
+	
+	/**
+	 * Sets the input field to a particular value.
+	 * @param message The text that should be added to the input field.
+	 */
+	/*
+	public void addInputInfo(String message) {
+		input.setText(message);
+	}
+	
+	*/
+	
+	/**
+	 * Waits until the field textToRead is non-null and
+	 * returns it, setting the field to null afterwards.
+	 * @return The current text value in the String field.
+	 * @throws InterruptedException 
+	 */
+	public String getTextField() {
+		while(textToRead == null) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+		String returnText = textToRead;
+		textToRead = null;
+		return returnText;
 	}
 }

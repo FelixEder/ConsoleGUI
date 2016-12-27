@@ -19,6 +19,9 @@ public class Console extends Application {
 	protected int historyPointer;
 	protected String textToRead = null;
 	
+	static Stage classStage = new Stage();
+	
+	
 	public static void main(String[] args) {
 		Application.launch(args);
 	}

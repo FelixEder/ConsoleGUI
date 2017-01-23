@@ -12,12 +12,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Console extends Application {
-	protected TextArea output;
-	protected TextField input;
+	protected static TextArea output;
+	protected static TextField input;
 	
-	protected List<String> history;
-	protected int historyPointer;
-	protected String textToRead = null;
+	protected static List<String> history;
+	protected static int historyPointer;
+	protected static String textToRead = null;
 	
 	static Stage classStage = new Stage();
 	
@@ -92,7 +92,7 @@ public class Console extends Application {
 	 * Called when the game wants to print something to the game
 	 * @param message The text to be printed to the console.
 	 */
-	public void printGameInfo(String message) {
+	public static void printGameInfo(String message) {
 		output.appendText(message + System.lineSeparator());
 	}
 	
@@ -114,7 +114,7 @@ public class Console extends Application {
 	 * @return The current text value in the String field.
 	 * @throws InterruptedException 
 	 */
-	public String getTextField() {
+	public static String getTextField() {
 		while(textToRead == null) {
 			try {
 				Thread.sleep(500);

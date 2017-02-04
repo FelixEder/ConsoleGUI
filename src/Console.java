@@ -74,7 +74,7 @@ public class Console extends Application {
 		});
 
 		//Settings for the borderPane, can be changed later
-		base.setPrefSize(400, 400);
+		base.setPrefSize(800, 800);
 		base.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
                 "-fx-border-width: 2;" +

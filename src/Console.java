@@ -13,7 +13,10 @@ import javafx.stage.Stage;
 
 public class Console extends Application {
 	protected static TextArea output;
+	protected static TextArea inventory;
+	protected static TextArea commands;
 	protected static TextField input;
+	
 	
 	protected static List<String> history;
 	protected static int historyPointer;
@@ -30,16 +33,24 @@ public class Console extends Application {
 	public void start(Stage stage) throws Exception {
 		output = new TextArea();
 		input = new TextField();
+		inventory = new TextArea();
+		commands = new TextArea();
+		
 		history = new ArrayList<>();
 		historyPointer = 0;
 	
 		output.setEditable(false);
+		inventory.setEditable(false);
+		commands.setEditable(false);
 		input.requestFocus();
 		
 		BorderPane.setAlignment(output, Pos.CENTER);
 		BorderPane.setAlignment(input, Pos.BOTTOM_CENTER); //Can be changed when needed
+		BorderPane.setAlignment(commands, Pos.BOTTOM_LEFT);
+		BorderPane.setAlignment(inventory, Pos.TOP_LEFT);
 		
-		BorderPane base = new BorderPane(output, null, null, input, null); //BorderPane(Node center, Node top, Node right, Node bottom, Node left)
+		
+		BorderPane base = new BorderPane(output, null, commands, input, inventory); //BorderPane(Node center, Node top, Node right, Node bottom, Node left)
 		
 		input.setOnKeyPressed(new EventHandler<KeyEvent>() {
 

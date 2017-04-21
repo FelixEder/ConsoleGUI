@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -76,5 +75,45 @@ public class Main extends Application{
 		default: break;
 		}
 	}
+	
+
+	/**
+	 * Called when the game wants to print something to the game
+	 * @param message The text to be printed to the console.
+	 */
+	public void printGameInfo(String message) {
+		output.appendText(message + System.lineSeparator());
+	}
+	
+	
+	/**
+	 * Sets the input field to a particular value.
+	 * @param message The text that should be added to the input field.
+	 */
+	/*
+	public void addInputInfo(String message) {
+		input.setText(message);
+	}
+	
+	*/
+	
+	/**
+	 * Waits until the field textToRead is non-null and
+	 * returns it, setting the field to null afterwards.
+	 * @return The current text value in the String field.
+	 * @throws InterruptedException 
+	 */
+	public static String getTextField() {
+		while(textToRead == null) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+		String returnText = textToRead;
+		textToRead = null;
+		return returnText;
+}
 
 }

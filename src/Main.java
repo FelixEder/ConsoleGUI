@@ -40,45 +40,41 @@ public class Main extends Application{
 		
 		history = new ArrayList<>();
 		historyPointer = 0;
-		
-		input.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-			public void handle(KeyEvent keyEvent) {
-				switch (keyEvent.getCode()) {
-				case ENTER: String text = input.getText();
-							output.appendText(text + System.lineSeparator());
-							history.add(text);
-							historyPointer = history.size(); 
-							input.clear();
-							textToRead = text;
-							break;
-							
-				case UP :	if(historyPointer == 0) break;
-							historyPointer--;
-							input.setText(history.get(historyPointer));
-							input.selectAll();
-							input.selectEnd(); //Does not change anything seemingly
-							break;
-							
-				case DOWN:	if(historyPointer == history.size()-1) break;
-							historyPointer++;
-							input.setText(history.get(historyPointer));
-							input.selectAll();
-							input.selectEnd(); //Does not change anything seemingly
-							break;
-
-				default: break;
-				}
-
-			}
-});
-		
 
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.setTitle("MyConsoleFXGUI"); //Could later be changed so that the actual game title is displayed here.
 		stage.show();
 		
+	}
+	
+	@FXML
+	void inputAction(KeyEvent keyEvent) {
+		switch (keyEvent.getCode()) {
+		case ENTER: String text = input.getText();
+					output.appendText(text + System.lineSeparator());
+					history.add(text);
+					historyPointer = history.size(); 
+					input.clear();
+					textToRead = text;
+					break;
+					
+		case UP :	if(historyPointer == 0) break;
+					historyPointer--;
+					input.setText(history.get(historyPointer));
+					input.selectAll();
+					input.selectEnd(); //Does not change anything seemingly
+					break;
+					
+		case DOWN:	if(historyPointer == history.size()-1) break;
+					historyPointer++;
+					input.setText(history.get(historyPointer));
+					input.selectAll();
+					input.selectEnd(); //Does not change anything seemingly
+					break;
+
+		default: break;
+		}
 	}
 
 }

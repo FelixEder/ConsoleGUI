@@ -2,6 +2,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,30 +17,36 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application{
+	
 	@FXML 
 	protected TextField input;
 	
 	@FXML
 	protected TextArea output, inventory, commands;
 	
-	
 	protected static List<String> history;
 	protected static int historyPointer;
 	protected static String textToRead = null;
 	
+	private Service<Void> backgroundThread;
+	
 	public static void main(String[] args) {
 		Application.launch(args);
-
 	}
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		BorderPane root = FXMLLoader.load(getClass().getResource("Console.fxml"));
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("Console.fxml"));
 		
+		BorderPane root = (BorderPane) loader.load();
+				
+		/*
 		output = new TextArea();
 		input = new TextField();
 		inventory = new TextArea();
 		commands = new TextArea();
+		*/
 		
 		history = new ArrayList<>();
 		historyPointer = 0;
@@ -44,6 +55,37 @@ public class Main extends Application{
 		stage.setScene(scene);
 		stage.setTitle("MyConsoleFXGUI"); //Could later be changed so that the actual game title is displayed here.
 		stage.show();
+		
+		//Starts a new Javafx thread and launches the game on it.
+		System.out.println("Stage has been set up");
+		backgroundThread = new Service<Void>() {
+		
+			@Override
+			protected Task<Void> createTask() {
+				return new Task<Void>() {
+					
+					@Override
+					protected Void call() throws Exception {
+						System.out.println("Game has been init, time to play!");
+						Thread.sleep(1000000);
+						return null;
+					}
+				};
+			}
+		};
+		backgroundThread.restart();
+		//When the game is completed on the other thread, this is called.
+		backgroundThread.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			
+			@Override
+			public void handle(WorkerStateEvent event) {
+				try {
+					Platform.exit();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		
 	}
 	
@@ -76,15 +118,21 @@ public class Main extends Application{
 		}
 	}
 	
-
+	@FXML
+	public void initialize() {
+		output.setText("Testing");
+	}
+	
+	
 	/**
 	 * Called when the game wants to print something to the game
 	 * @param message The text to be printed to the console.
-	 */
-	public void printGameInfo(String message) {
-		output.appendText(message + System.lineSeparator());
+	 
+	public static void printGameInfo(String message) {
+		System.out.println("This method was attempted!");
+		output.setText(message + System.lineSeparator());
 	}
-	
+	*/
 	
 	/**
 	 * Sets the input field to a particular value.
@@ -114,6 +162,5 @@ public class Main extends Application{
 		String returnText = textToRead;
 		textToRead = null;
 		return returnText;
-}
-
+	}
 }

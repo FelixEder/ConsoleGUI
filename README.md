@@ -9,7 +9,7 @@ should however be completed and there for the project has officially ended.
 
 
 
-I will base ny design on various internet guides, forums and other sources.
+I will base my design on various internet guides, forums and other sources.
 
 My sources and inspiration:
 http://codereview.stackexchange.com/questions/52197/console-component-in-javafx

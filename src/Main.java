@@ -39,14 +39,7 @@ public class Main extends Application{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("Console.fxml"));
 		
-		BorderPane root = (BorderPane) loader.load();
-				
-		/*
-		output = new TextArea();
-		input = new TextField();
-		inventory = new TextArea();
-		commands = new TextArea();
-		*/
+		BorderPane root = loader.load();
 		
 		history = new ArrayList<>();
 		historyPointer = 0;
@@ -67,7 +60,6 @@ public class Main extends Application{
 					@Override
 					protected Void call() throws Exception {
 						System.out.println("Game has been init, time to play!");
-						Thread.sleep(1000000);
 						return null;
 					}
 				};
@@ -86,7 +78,6 @@ public class Main extends Application{
 				}
 			}
 		});
-		
 	}
 	
 	@FXML
@@ -113,45 +104,39 @@ public class Main extends Application{
 					input.selectAll();
 					input.selectEnd(); //Does not change anything seemingly
 					break;
-
-		default: break;
 		}
 	}
 	
 	@FXML
 	public void initialize() {
-		output.setText("Testing");
+	    //This method is called after the constructor and FXML-fields are populated
+        //Use this to initialize important stuff.
 	}
-	
-	
+
 	/**
 	 * Called when the game wants to print something to the game
 	 * @param message The text to be printed to the console.
-	 
-	public static void printGameInfo(String message) {
+	 */
+	public void printGameInfo(String message) {
 		System.out.println("This method was attempted!");
 		output.setText(message + System.lineSeparator());
 	}
-	*/
 	
 	/**
 	 * Sets the input field to a particular value.
 	 * @param message The text that should be added to the input field.
 	 */
-	/*
 	public void addInputInfo(String message) {
 		input.setText(message);
 	}
-	
-	*/
-	
+
 	/**
 	 * Waits until the field textToRead is non-null and
 	 * returns it, setting the field to null afterwards.
 	 * @return The current text value in the String field.
-	 * @throws InterruptedException 
 	 */
 	public static String getTextField() {
+	    /*
 		while(textToRead == null) {
 			try {
 				Thread.sleep(500);
@@ -159,6 +144,7 @@ public class Main extends Application{
 				Thread.currentThread().interrupt();
 			}
 		}
+		*/
 		String returnText = textToRead;
 		textToRead = null;
 		return returnText;

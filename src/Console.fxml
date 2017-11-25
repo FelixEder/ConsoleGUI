@@ -14,10 +14,10 @@
    <right>
       <BorderPane prefHeight="400.0" prefWidth="165.0" BorderPane.alignment="CENTER">
          <top>
-            <TextArea fx:id="inventory" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <TextArea fx:id="inventory" editable="false" prefHeight="281.0" prefWidth="165.0" BorderPane.alignment="CENTER" />
          </top>
          <bottom>
-            <TextArea fx:id="commands" editable="false" prefHeight="200.0" prefWidth="127.0" BorderPane.alignment="CENTER" />
+            <TextArea fx:id="commands" editable="false" prefHeight="289.0" prefWidth="165.0" BorderPane.alignment="CENTER" />
          </bottom>
       </BorderPane>
    </right>

@@ -1,3 +1,4 @@
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -15,20 +16,23 @@ import java.util.ResourceBundle;
  */
 public class Controller implements Initializable {
 
+  @FXML
   protected TextField input;
+  @FXML
   protected TextArea output, inventory, commands;
 
   private static List<String> history;
   private static int historyPointer;
   private static String textToRead = null;
-  
+
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     history = new ArrayList<>();
     historyPointer = 0;
   }
 
-  void inputAction(KeyEvent keyEvent) {
+  @FXML
+  void handleInput(KeyEvent keyEvent) {
     switch (keyEvent.getCode()) {
       case ENTER: String text = input.getText();
         output.appendText(text + System.lineSeparator());

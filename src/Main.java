@@ -31,6 +31,8 @@ public class Main extends Application{
 		
 		BorderPane root = loader.load();
 
+		Controller controller = (Controller) loader.getController();
+
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.setTitle("MyConsoleFXGUI"); //Could later be changed so that the actual game title is displayed here.
